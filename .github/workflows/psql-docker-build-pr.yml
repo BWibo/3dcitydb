@@ -72,6 +72,3 @@ jobs:
     -
       name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
-    -
-      name: Inspect image
-      run: docker inspect bwibo/3dcitydb-pg:edge${{ matrix.variant }}
