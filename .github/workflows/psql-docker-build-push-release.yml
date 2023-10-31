@@ -57,8 +57,8 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          bwibo/3dcitydb-pg
-          ghcr.io/bwibo/3dcitydb-pg
+          ${{ github.repository_owner }}/3dcitydb-pg
+          ghcr.io/${{ github.repository_owner }}/3dcitydb-pg
         flavor: |
           latest=${{ matrix.baseimage-tag == env.LATEST_BASEIMAGE }}
           prefix=${{ matrix.baseimage-tag }}-
@@ -93,4 +93,4 @@ jobs:
       run: echo ${{ steps.docker_build.outputs.digest }}
     -
       name: Inspect image
-      run: docker inspect bwibo/3dcitydb-pg:${{ matrix.baseimage-tag }}-${{ steps.release_version.outputs.version-without-v }}${{ matrix.variant }}
+      run: docker inspect ${{ github.repository_owner }}/3dcitydb-pg:${{ matrix.baseimage-tag }}-${{ steps.release_version.outputs.version-without-v }}${{ matrix.variant }}
