@@ -38,6 +38,12 @@ jobs:
       id: release_version
       uses: battila7/get-version-action@v2
     -
+      name: set lower case owner name
+      run: |
+        echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+      env:
+        OWNER: '${{ github.repository_owner }}'
+    -
       name: Docker login Dockerhub
       id: docker_login
       uses: docker/login-action@v3
@@ -57,8 +63,8 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          ${{ github.repository_owner }}/3dcitydb-pg
-          ghcr.io/${{ github.repository_owner }}/3dcitydb-pg
+          ${{ env.OWNER_LC }}/3dcitydb-pg
+          ghcr.io/${{ env.OWNER_LC }}/3dcitydb-pg
         flavor: |
           latest=${{ matrix.baseimage-tag == env.LATEST_BASEIMAGE }}
           prefix=${{ matrix.baseimage-tag }}-
@@ -93,7 +99,7 @@ jobs:
       run: echo ${{ steps.docker_build.outputs.digest }}
     -
       name: Inspect image
-      run: docker inspect ${{ github.repository_owner }}/3dcitydb-pg:${{ matrix.baseimage-tag }}-${{ steps.release_version.outputs.version-without-v }}${{ matrix.variant }}
+      run: docker inspect ${{ env.OWNER_LC }}/3dcitydb-pg:${{ matrix.baseimage-tag }}-${{ steps.release_version.outputs.version-without-v }}${{ matrix.variant }}
     -
       name: Inspect image ghcr.io
-      run: docker inspect ghcr.io/${{ github.repository_owner }}/3dcitydb-pg:${{ matrix.baseimage-tag }}-${{ steps.release_version.outputs.version-without-v }}${{ matrix.variant }}
+      run: docker inspect ghcr.io/${{ env.OWNER_LC }}/3dcitydb-pg:${{ matrix.baseimage-tag }}-${{ steps.release_version.outputs.version-without-v }}${{ matrix.variant }}
