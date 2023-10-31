@@ -94,3 +94,6 @@ jobs:
     -
       name: Inspect image
       run: docker inspect ${{ github.repository_owner }}/3dcitydb-pg:${{ matrix.baseimage-tag }}-${{ steps.release_version.outputs.version-without-v }}${{ matrix.variant }}
+    -
+      name: Inspect image ghcr.io
+      run: docker inspect ghcr.io/${{ github.repository_owner }}/3dcitydb-pg:${{ matrix.baseimage-tag }}-${{ steps.release_version.outputs.version-without-v }}${{ matrix.variant }}

@@ -75,5 +75,8 @@ jobs:
       name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
     -
-      name: Inspect image
+      name: Inspect image Dockerhub
       run: docker inspect ${{ github.repository_owner }}/3dcitydb-pg:edge${{ matrix.variant }}
+    -
+      name: Inspect image ghcr.io
+      run: docker inspect ghcr.io/${{ github.repository_owner }}/3dcitydb-pg:edge${{ matrix.variant }}
