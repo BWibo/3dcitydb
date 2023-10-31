@@ -22,6 +22,12 @@ jobs:
       uses: benjlevesque/short-sha@v2.2
       id: short-sha
     -
+      name: set lower case owner name
+      run: |
+        echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+      env:
+        OWNER: '${{ github.repository_owner }}'
+    -
       name: Checkout repo
       uses: actions/checkout@v4
     -
@@ -44,8 +50,8 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          ${{ github.repository_owner }}/3dcitydb-pg
-          ghcr.io/${{ github.repository_owner }}/3dcitydb-pg
+          ${{ env.OWNER_LC }}/3dcitydb-pg
+          ghcr.io/${{ env.OWNER_LC }}/3dcitydb-pg
         flavor: |
           latest=false
           suffix=${{ matrix.variant }}
@@ -76,7 +82,7 @@ jobs:
       run: echo ${{ steps.docker_build.outputs.digest }}
     -
       name: Inspect image Dockerhub
-      run: docker inspect ${{ github.repository_owner }}/3dcitydb-pg:edge${{ matrix.variant }}
+      run: docker inspect ${{ env.OWNER_LC }}/3dcitydb-pg:edge${{ matrix.variant }}
     -
       name: Inspect image ghcr.io
-      run: docker inspect ghcr.io/${{ github.repository_owner }}/3dcitydb-pg:edge${{ matrix.variant }}
+      run: docker inspect ghcr.io/${{ env.OWNER_LC }}/3dcitydb-pg:edge${{ matrix.variant }}
