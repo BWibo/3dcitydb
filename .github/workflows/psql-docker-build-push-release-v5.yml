@@ -60,6 +60,7 @@ jobs:
           latest=${{ !github.event.release.prerelease }}
         tags: |
           type=semver,pattern={{version}}
+          type=semver,pattern={{versoin}},value=latest-beta
         labels: |
           maintainer=Bruno Willenborg
           maintainer.email=b.willenborg(at)tum.de
@@ -86,9 +87,3 @@ jobs:
     -
       name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
-    -
-      name: Inspect image
-      run: docker inspect ${{ env.OWNER_LC }}/${{ env.IMAGE_NAME }}:${{ steps.release_version.outputs.version-without-v }}${{ matrix.variant }}
-    -
-      name: Inspect image ghcr.io
-      run: docker inspect ghcr.io/${{ env.OWNER_LC }}/${{ env.IMAGE_NAME }}:${{ steps.release_version.outputs.version-without-v }}${{ matrix.variant }}
